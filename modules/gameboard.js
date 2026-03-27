@@ -2,14 +2,11 @@ import Ship from "./ship";
 
 export default class Gameboard {
   constructor() {
-    this.board = Array.from({ length: 10 }, () => new Array(10).fill(null));
+    this.size = 7;
+    this.board = Array.from({ length: this.size }, () =>
+      new Array(this.size).fill(null),
+    );
     this.sunkShips = 0;
-    this.ships = {
-      5: 0,
-      4: 0,
-      3: 0,
-      2: 0,
-    };
   }
   placeShip(start, length, orientation) {
     if (orientation == "horizontal") {
@@ -22,7 +19,7 @@ export default class Gameboard {
         this.#placeShip(start, length, orientation);
         return true;
       }
-    } else console.log("Wrong cordinates!");
+    }
   }
 
   #placeShip(start, length, orientation) {
@@ -43,8 +40,8 @@ export default class Gameboard {
   }
 
   isSquareCorrect(cordArr) {
-    if (cordArr[0] < 0 || cordArr[0] > 9) return false;
-    if (cordArr[1] < 0 || cordArr[1] > 9) return false;
+    if (cordArr[0] < 0 || cordArr[0] > this.size - 1) return false;
+    if (cordArr[1] < 0 || cordArr[1] > this.size - 1) return false;
     return true;
   }
 
@@ -91,9 +88,5 @@ export default class Gameboard {
     } else if (target === null) {
       this.board[line][col] = "miss";
     }
-  }
-
-  areAllShipsSunk() {
-    return this.sunkShips == 10;
   }
 }
