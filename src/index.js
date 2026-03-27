@@ -1,7 +1,5 @@
 import style from "./style.css";
-import DOMcontroller from "../modules/DOMcontroller";
-import Player from "../modules/player";
+import GameController from "../modules/gameController";
 
-const player = new Player("computer");
-const controller = new DOMcontroller();
-controller.renderBoard(player.board.board);
+const controller = new GameController();
+controller.DOMcontroller.renderBoard();

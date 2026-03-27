@@ -3,9 +3,16 @@ import Ship from "./ship";
 export default class Gameboard {
   constructor() {
     this.size = 7;
-    this.board = Array.from({ length: this.size }, () =>
-      new Array(this.size).fill(null),
-    );
+    this.board = Array(this.size)
+      .fill(null)
+      .map(() =>
+        Array(this.size)
+          .fill(null)
+          .map(() => ({
+            ship: null,
+            isHit: false,
+          })),
+      );
     this.sunkShips = 0;
   }
   placeShip(start, length, orientation) {
@@ -29,12 +36,12 @@ export default class Gameboard {
       const endCol = col + length - 1;
 
       for (let i = col; i <= endCol; i++) {
-        this.board[line][i] = ship;
+        this.board[line][i].ship = ship;
       }
     } else {
       const endLine = line + length - 1;
       for (let i = line; i <= endLine; i++) {
-        this.board[i][col] = ship;
+        this.board[i][col].ship = ship;
       }
     }
   }
@@ -55,7 +62,7 @@ export default class Gameboard {
     }
 
     for (let i = col; i <= endCol; i++) {
-      if (this.board[line][i] !== null) return false;
+      if (this.board[line][i].ship !== null) return false;
     }
 
     return true;
@@ -70,7 +77,7 @@ export default class Gameboard {
     }
 
     for (let i = line; i <= endLine; i++) {
-      if (this.board[i][col] !== null) return false;
+      if (this.board[i][col].ship !== null) return false;
     }
 
     return true;
@@ -78,15 +85,14 @@ export default class Gameboard {
 
   reciveAttack(cordArr) {
     const [line, col] = cordArr;
-    const target = this.board[line][col];
+    const target = this.board[line][col].ship;
 
     if (target instanceof Ship) {
       target.hit();
       if (target.isSunk()) {
         this.sunkShips++;
       }
-    } else if (target === null) {
-      this.board[line][col] = "miss";
     }
+    this.board[line][col].isHit = true;
   }
 }

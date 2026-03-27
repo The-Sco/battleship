@@ -3,20 +3,37 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(104, 104, 104);
 }
 
 .gameboard {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  border: 1px solid black;
+  border: 1px solid  rgb(62, 62, 62);
   width: 500px;
   height: 500px;
 }
 
 .cell {
-  border: 1px solid black;
+  border: 1px solid rgb(62, 62, 62);
 }
 
 .ship {
-  background-color: rgb(54, 54, 54);
+  background-color: rgb(19, 19, 19);
+}
+.ship.sunk {
+  background-color: rgb(61, 10, 0);
+}
+
+.hitted {
+  position: relative;
+}
+.hitted::after {
+  position: absolute;
+  content: "X";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: red;
 }
