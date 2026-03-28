@@ -8,13 +8,34 @@
 <body>
   <h1>title</h1>
   <div class="playerBoard">
-    <div class="gameboard"></div>
+    <div class="boards">
+      <div class="gameboard"></div>
+      <div class="enemyBoard"></div>
+    </div>
     <div class="placementButtons">
-      <button class="placementButton" data-length="5">x5</button>
-      <button class="placementButton" data-length="4">x4</button>
-      <button class="placementButton" data-length="3">x3</button>
-      <button class="placementButton" data-length="2">x2</button>
-      <button class="changeOrient">Change orientation</button>
+      <div class="buttonDiv">
+        <button class="placementButton" data-length="5">x5</button>
+        <span class="shipsLeft shipsLeft-5">left: 1</span>
+      </div>
+      <div class="buttonDiv">
+        <button class="placementButton" data-length="4">x4</button>
+        <span class="shipsLeft shipsLeft-4">left: 2</span>
+      </div>
+      <div class="buttonDiv">
+        <button class="placementButton" data-length="3">x3</button>
+        <span class="shipsLeft shipsLeft-3">left: 3</span>
+      </div>
+      <div class="buttonDiv">
+        <button class="placementButton" data-length="2">x2</button>
+        <span class="shipsLeft shipsLeft-2">left: 4</span>
+      </div>
+      <div class="changeOrientDiv">
+        <button class="changeOrientButton">Change orientation</button>
+        <span class="currentOrient">Now: horizontal</span>
+      </div>
+      <div class="startGameDiv">
+        <button class="startGameButton" disabled>Start game</button>
+      </div>
     </div>
   </div>
 </body>

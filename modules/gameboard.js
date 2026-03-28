@@ -85,14 +85,17 @@ export default class Gameboard {
 
   reciveAttack(cordArr) {
     const [line, col] = cordArr;
-    const target = this.board[line][col].ship;
+    const target = this.board[line][col];
+    if (target.isHit) return "invalid";
 
-    if (target instanceof Ship) {
-      target.hit();
-      if (target.isSunk()) {
+    this.board[line][col].isHit = true;
+    if (target.ship instanceof Ship) {
+      target.ship.hit();
+      if (target.ship.isSunk()) {
         this.sunkShips++;
       }
+      return "hit";
     }
-    this.board[line][col].isHit = true;
+    return "miss";
   }
 }
