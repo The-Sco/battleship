@@ -1,18 +1,50 @@
+@font-face {
+    font-family: "Inter";
+    src: url("./InterVariable.ttf");
+}
+
+html { font-size: 62.50%; }
+
+:root {
+    --text-basis-size: clamp(0.6rem, 1.2vw + 0.8rem, 2.4rem);
+    --scale-ratio: 1.20;
+    --font10: calc(var(--text-basis-size) / var(--scale-ratio) / var(--scale-ratio));
+    --font15: calc(var(--text-basis-size) / var(--scale-ratio));
+    --font25: calc(var(--text-basis-size) * var(--scale-ratio));
+    --font30: calc(var(--font25) * var(--scale-ratio));
+    --font35: calc(var(--font30) * var(--scale-ratio));
+    --font40: calc(var(--font35) * var(--scale-ratio));
+    --font45: calc(var(--font40) * var(--scale-ratio));
+    --font50: calc(var(--font45) * var(--scale-ratio));
+
+    --padding2: clamp(0.6rem, 2.5vw, 2.5rem);
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgb(230, 230, 230);
+  font-family: "Inter";
 }
 
-.playerBoard {
+button {
+  font-size: var(--font15);
+  padding: clamp(0.2rem, 0.8vw, 0.6rem) clamp(0.4rem, 1.5vw, 1rem)
+}
+
+.label {
+  font-size: var(--font10);
+}
+.game {
   display: flex;
   flex-direction: column;
-  gap: 1rem
+  gap: clamp(0.5rem, 2vw, 2rem)
 }
 
 .boards {
+  position: relative;
   display: flex;
   gap: clamp(3vw, 1.2rem, 2rem)
 }
@@ -21,8 +53,8 @@ body {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   border: 1px solid  rgb(62, 62, 62);
-  width: clamp(33vw, 38vw, 38vw);
-  height: clamp(33vw, 38vw, 38vw);
+  width: clamp(20rem, 45vw, 55rem);
+  height: clamp(20rem, 45vw, 55rem);
 }
 
 .cell {
@@ -45,8 +77,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 3rem;
+  font-size: var(--font30);
   color: red;
+  z-index: 1;
 }
 
 .placementButtons {
@@ -57,11 +90,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-}
-.placementButton {
-  padding: 0.2rem 0.8rem;
-  font-size: 1.4rem;
+  gap: clamp(0.2rem, 0.8vw, 0.6rem);
 }
 
 .changeOrientDiv {
@@ -73,4 +102,33 @@ body {
 }
 .changeOrientButton {
   flex: 1;
+}
+
+.endGameDialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(85, 85, 85, 0.898);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  z-index: 10;
+}
+
+.endGameDialog.hidden {
+  display: none;
+}
+
+.sideButtonDiv {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 1.2rem;
+}
+.sideButton {
+  font-size: var(--font10)
 }

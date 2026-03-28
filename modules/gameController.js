@@ -67,4 +67,30 @@ export default class GameController {
     }
     return sum <= 0;
   }
+
+  checkWinner() {
+    if (this.playerTwo.board.areAllShipsSunk()) {
+      return "You";
+    } else if (this.playerOne.board.areAllShipsSunk()) {
+      return "Computer";
+    }
+    return false;
+  }
+
+  resetGame() {
+    this.currentPlayer = "player";
+    this.hasStarted = false;
+    this.placement = {
+      ship: 5,
+      isHorizontal: true,
+    };
+    this.shipsLeft = {
+      5: 1,
+      4: 2,
+      3: 3,
+      2: 4,
+    };
+    this.playerOne.board.resetBoard();
+    this.playerTwo.board.resetBoard();
+  }
 }

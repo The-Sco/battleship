@@ -98,4 +98,21 @@ export default class Gameboard {
     }
     return "miss";
   }
+
+  areAllShipsSunk() {
+    return this.sunkShips === 10;
+  }
+
+  generateRandomBoard() {
+    const ships = [5, 4, 4, 3, 3, 3, 2, 2, 2, 2];
+    const randomOrient = () => (Math.random() > 0.5 ? true : false);
+    const randomCord = () => Math.floor(Math.random() * this.size);
+    while (ships.length > 0) {
+      const c1 = randomCord();
+      const c2 = randomCord();
+      if (this.placeShip([c1, c2], ships[0], randomOrient())) {
+        ships.shift();
+      }
+    }
+  }
 }

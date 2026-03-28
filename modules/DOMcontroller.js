@@ -10,16 +10,65 @@ export default class DOMcontroller {
       this.handleEnemyBoardClick.bind(this),
     );
 
-    this.initPlacmentButtons();
-    this.initChangeOrientButton();
-    this.initStartButton();
+    this.initButtons();
   }
+
+  initButtons() {
+    this.initPlacmentButtons();
+    this.initChangeOrientButtons();
+    this.initStartButton();
+    this.initResetButton();
+  }
+
+  initResetButton() {
+    const resetButton = document.querySelectorAll(".resetGameButton");
+
+    const onClick = () => {
+      this.gc.resetGame();
+      this.renderBoard();
+      this.renderEnemyBoard();
+      this.updateShipsLeft();
+      this.enableButtons();
+      this.updateStartButton();
+      this.hideResultDialog();
+    };
+
+    resetButton.forEach((button) => {
+      button.addEventListener("click", onClick);
+    });
+  }
+
+  //initRandomPlacementButton() {
+  //  const button = document.querySelector(".randomPlacementButton");
+  //
+  //  const randomPlacement = () => {
+  //    if (this.gc.areAllShipsOnField()) return;
+  //
+  //    this.gc.playerOne.board.generateRandomBoard();
+  //    this.gc.shipsLeft = {
+  //      5: 0,
+  //      4: 0,
+  //      3: 0,
+  //      2: 0,
+  //    };
+  //    this.renderBoard();
+  //    this.updateShipsLeft();
+  //    this.updateStartButton();
+  //  };
+  //  button.addEventListener("click", randomPlacement);
+  //
+  //    document.addEventListener("keydown", (e) => {
+  //      if (!/q/i.test(e.key)) return;
+  //      randomPlacement();
+  //    });
+  //  }
 
   initStartButton() {
     const button = document.querySelector(".startGameButton");
 
     const onClick = () => {
       this.gc.hasStarted = true;
+      this.disableButtons();
     };
 
     button.addEventListener("click", onClick);
@@ -37,10 +86,11 @@ export default class DOMcontroller {
     placeButtonsDiv.addEventListener("click", onClick);
   }
 
-  initChangeOrientButton() {
+  initChangeOrientButtons() {
     const button = document.querySelector(".changeOrientButton");
 
     const onClick = () => {
+      if (this.gc.hasStarted) return;
       this.gc.placement.isHorizontal = !this.gc.placement.isHorizontal;
       const span = document.querySelector(".currentOrient");
       const orient = this.gc.placement.isHorizontal ? "horizontal" : "vertical";
@@ -48,6 +98,11 @@ export default class DOMcontroller {
     };
 
     button.addEventListener("click", onClick);
+
+    const onkeydown = (e) => {
+      if (/r/i.test(e.key)) onClick();
+    };
+    document.addEventListener("keydown", onkeydown);
   }
 
   updateStartButton() {
@@ -55,6 +110,20 @@ export default class DOMcontroller {
       const button = document.querySelector(".startGameButton");
       button.disabled = false;
     }
+  }
+
+  disableButtons() {
+    const randomPlacement = document.querySelector(".randomPlacementButton");
+    randomPlacement.disabled = true;
+    const buttons = document.querySelectorAll(".placementButtons button");
+    buttons.forEach((button) => (button.disabled = true));
+  }
+
+  enableButtons() {
+    const randomPlacement = document.querySelector(".randomPlacementButton");
+    randomPlacement.disabled = false;
+    const buttons = document.querySelectorAll(".placementButtons button");
+    buttons.forEach((button) => (button.disabled = false));
   }
 
   handleBoardClick(e) {
@@ -70,7 +139,7 @@ export default class DOMcontroller {
     }
   }
 
-  renderShipsLeft() {
+  updateShipsLeft() {
     const ships = this.gc.shipsLeft;
     for (let i = 2; i <= 5; i++) {
       document.querySelector(`.shipsLeft-${i}`).textContent =
@@ -86,7 +155,7 @@ export default class DOMcontroller {
 
     if (this.gc.playerOne.board.placeShip(cordArr, length, isHorizontal)) {
       this.gc.decrementShip(length);
-      this.renderShipsLeft();
+      this.updateShipsLeft();
     }
   }
 
@@ -156,6 +225,22 @@ export default class DOMcontroller {
     }
 
     this.hitBoard(target);
+    this.checkWinner();
     this.renderEnemyBoard();
+  }
+
+  checkWinner() {
+    const result = this.gc.checkWinner();
+    if (!result) return;
+
+    const dialog = document.querySelector(".endGameDialog");
+    dialog.classList.remove("hidden");
+    const resultMessage = document.querySelector(".resultMessage");
+    resultMessage.textContent = `${result} won`;
+  }
+
+  hideResultDialog() {
+    const dialog = document.querySelector(".endGameDialog");
+    dialog.classList.add("hidden");
   }
 }

@@ -7,36 +7,43 @@
 </head>
 <body>
   <h1>title</h1>
-  <div class="playerBoard">
+  <div class="game">
     <div class="boards">
+      <div class="endGameDialog hidden">
+        <h1 class="resultMessage">You won!</h1>
+        <button class="resetGameButton">Restart game</button>
+      </div>
       <div class="gameboard"></div>
       <div class="enemyBoard"></div>
     </div>
     <div class="placementButtons">
       <div class="buttonDiv">
         <button class="placementButton" data-length="5">x5</button>
-        <span class="shipsLeft shipsLeft-5">left: 1</span>
+        <span class="label shipsLeft-5">left: 1</span>
       </div>
       <div class="buttonDiv">
         <button class="placementButton" data-length="4">x4</button>
-        <span class="shipsLeft shipsLeft-4">left: 2</span>
+        <span class="label shipsLeft-4">left: 2</span>
       </div>
       <div class="buttonDiv">
         <button class="placementButton" data-length="3">x3</button>
-        <span class="shipsLeft shipsLeft-3">left: 3</span>
+        <span class="label shipsLeft-3">left: 3</span>
       </div>
       <div class="buttonDiv">
         <button class="placementButton" data-length="2">x2</button>
-        <span class="shipsLeft shipsLeft-2">left: 4</span>
+        <span class="label shipsLeft-2">left: 4</span>
       </div>
-      <div class="changeOrientDiv">
+      <div class="buttonDiv changeOrientDiv">
         <button class="changeOrientButton">Change orientation</button>
-        <span class="currentOrient">Now: horizontal</span>
+        <span class="label currentOrient">Now: horizontal</span>
       </div>
-      <div class="startGameDiv">
+      <div class="buttonDiv startGameDiv">
         <button class="startGameButton" disabled>Start game</button>
       </div>
     </div>
+  </div>
+  <div class="sideButtonDiv">
+    <button class="sideButton resetGameButton">Restart game</button>
   </div>
 </body>
 </html>
