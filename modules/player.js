@@ -9,10 +9,9 @@ export default class Player {
       return new Gameboard();
     }
 
-    const ships = [4, 3, 3, 2, 2, 2];
+    const ships = [5, 4, 4, 3, 3, 3, 2, 2, 2, 2];
     const computerBoard = new Gameboard();
-    const randomOrient = () =>
-      Math.random() > 0.5 ? "horizontal" : "vertical";
+    const randomOrient = () => (Math.random() > 0.5 ? true : false);
     const randomCord = () => Math.floor(Math.random() * computerBoard.size);
     while (ships.length > 0) {
       const c1 = randomCord();

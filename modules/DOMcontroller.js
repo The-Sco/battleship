@@ -3,6 +3,31 @@ export default class DOMcontroller {
     this.gc = gameController;
     this.container = document.querySelector(".gameboard");
     this.container.addEventListener("click", this.handleBoardClick.bind(this));
+
+    this.initPlacmentButtons();
+    this.initChangeOrientButton();
+  }
+
+  initPlacmentButtons() {
+    const placeButtonsDiv = document.querySelector(".placementButtons");
+
+    const onClick = (e) => {
+      const target = e.target;
+      if (!target.classList.contains("placementButton")) return;
+      this.gc.placement.ship = parseInt(target.dataset.length);
+    };
+
+    placeButtonsDiv.addEventListener("click", onClick);
+  }
+
+  initChangeOrientButton() {
+    const button = document.querySelector(".changeOrient");
+
+    const onClick = () => {
+      this.gc.placement.isHorizontal = !this.gc.placement.isHorizontal;
+    };
+
+    button.addEventListener("click", onClick);
   }
 
   handleBoardClick(e) {
@@ -14,10 +39,29 @@ export default class DOMcontroller {
       return;
     }
 
+    if (this.gc.hasStarted) {
+      this.hitBoard(target);
+      this.renderBoard();
+      return;
+    } else {
+      this.placeShip(target);
+      this.renderBoard();
+    }
+  }
+
+  placeShip(target) {
+    const length = parseInt(this.gc.placement.ship);
+    if (!this.gc.areShipsLeft(length)) return;
+    const cordArr = target.dataset.cord.split(",").map((n) => parseInt(n));
+    const isHorizontal = this.gc.placement.isHorizontal;
+
+    if (this.gc.currentPlayer.board.placeShip(cordArr, length, isHorizontal))
+      this.gc.decrementShip(length);
+  }
+
+  hitBoard(target) {
     const cordArr = target.dataset.cord.split(",");
     this.gc.playTurn(cordArr);
-
-    this.renderBoard();
   }
 
   createCell(cellData, i, j) {

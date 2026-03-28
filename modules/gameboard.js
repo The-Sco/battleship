@@ -2,7 +2,7 @@ import Ship from "./ship";
 
 export default class Gameboard {
   constructor() {
-    this.size = 7;
+    this.size = 9;
     this.board = Array(this.size)
       .fill(null)
       .map(() =>
@@ -15,24 +15,24 @@ export default class Gameboard {
       );
     this.sunkShips = 0;
   }
-  placeShip(start, length, orientation) {
-    if (orientation == "horizontal") {
+  placeShip(start, length, isHorizontal) {
+    if (isHorizontal) {
       if (this.isHorizontalCorrect(start, length)) {
-        this.#placeShip(start, length, orientation);
+        this.#placeShip(start, length, isHorizontal);
         return true;
       }
-    } else if (orientation == "vertical") {
+    } else if (!isHorizontal) {
       if (this.isVerticalCorrect(start, length)) {
-        this.#placeShip(start, length, orientation);
+        this.#placeShip(start, length, isHorizontal);
         return true;
       }
     }
   }
 
-  #placeShip(start, length, orientation) {
+  #placeShip(start, length, isHorizontal) {
     const ship = new Ship(length);
     const [line, col] = start;
-    if (orientation == "horizontal") {
+    if (isHorizontal) {
       const endCol = col + length - 1;
 
       for (let i = col; i <= endCol; i++) {
