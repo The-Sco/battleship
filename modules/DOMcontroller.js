@@ -18,6 +18,7 @@ export default class DOMcontroller {
     this.initChangeOrientButtons();
     this.initStartButton();
     this.initResetButton();
+    this.initHelpButton();
   }
 
   initResetButton() {
@@ -28,6 +29,7 @@ export default class DOMcontroller {
       this.renderBoard();
       this.renderEnemyBoard();
       this.updateShipsLeft();
+      this.updatePlacementButtons();
       this.enableButtons();
       this.updateStartButton();
       this.hideResultDialog();
@@ -38,30 +40,18 @@ export default class DOMcontroller {
     });
   }
 
-  //initRandomPlacementButton() {
-  //  const button = document.querySelector(".randomPlacementButton");
-  //
-  //  const randomPlacement = () => {
-  //    if (this.gc.areAllShipsOnField()) return;
-  //
-  //    this.gc.playerOne.board.generateRandomBoard();
-  //    this.gc.shipsLeft = {
-  //      5: 0,
-  //      4: 0,
-  //      3: 0,
-  //      2: 0,
-  //    };
-  //    this.renderBoard();
-  //    this.updateShipsLeft();
-  //    this.updateStartButton();
-  //  };
-  //  button.addEventListener("click", randomPlacement);
-  //
-  //    document.addEventListener("keydown", (e) => {
-  //      if (!/q/i.test(e.key)) return;
-  //      randomPlacement();
-  //    });
-  //  }
+  initHelpButton() {
+    const button = document.querySelector(".helpButton");
+    const dialog = document.querySelector(".helpDialog");
+    const closeDialogButton = document.querySelector(".closeDialogButton");
+
+    button.addEventListener("click", () => {
+      dialog.showModal();
+    });
+    closeDialogButton.addEventListener("click", () => {
+      dialog.close();
+    });
+  }
 
   initStartButton() {
     const button = document.querySelector(".startGameButton");
@@ -81,6 +71,7 @@ export default class DOMcontroller {
       const target = e.target;
       if (!target.classList.contains("placementButton")) return;
       this.gc.placement.ship = parseInt(target.dataset.length);
+      this.updatePlacementButtons(target);
     };
 
     placeButtonsDiv.addEventListener("click", onClick);
@@ -106,22 +97,37 @@ export default class DOMcontroller {
   }
 
   updateStartButton() {
-    if (this.gc.areAllShipsOnField()) {
-      const button = document.querySelector(".startGameButton");
+    const button = document.querySelector(".startGameButton");
+    if (this.gc.areAllShipsOnField() && !this.gc.hasStarted) {
       button.disabled = false;
+    } else button.disabled = true;
+  }
+
+  updatePlacementButtons(target) {
+    const buttons = document.querySelectorAll(".placementButton");
+    const e = document.querySelector(
+      `.placementButton-${this.gc.placement.ship}`,
+    );
+    buttons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    e.classList.add("active");
+  }
+
+  updateShipsLeft() {
+    const ships = this.gc.shipsLeft;
+    for (let i = 2; i <= 5; i++) {
+      document.querySelector(`.shipsLeft-${i}`).textContent =
+        `left: ${ships[i]}`;
     }
   }
 
   disableButtons() {
-    const randomPlacement = document.querySelector(".randomPlacementButton");
-    randomPlacement.disabled = true;
     const buttons = document.querySelectorAll(".placementButtons button");
     buttons.forEach((button) => (button.disabled = true));
   }
 
   enableButtons() {
-    const randomPlacement = document.querySelector(".randomPlacementButton");
-    randomPlacement.disabled = false;
     const buttons = document.querySelectorAll(".placementButtons button");
     buttons.forEach((button) => (button.disabled = false));
   }
@@ -136,14 +142,6 @@ export default class DOMcontroller {
       this.placeShip(target);
       this.renderBoard();
       this.updateStartButton();
-    }
-  }
-
-  updateShipsLeft() {
-    const ships = this.gc.shipsLeft;
-    for (let i = 2; i <= 5; i++) {
-      document.querySelector(`.shipsLeft-${i}`).textContent =
-        `left: ${ships[i]}`;
     }
   }
 

@@ -2,7 +2,7 @@ import Ship from "./ship";
 
 export default class Gameboard {
   constructor() {
-    this.size = 9;
+    this.size = 10;
     this.board = Array(this.size)
       .fill(null)
       .map(() =>

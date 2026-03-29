@@ -25,7 +25,6 @@ export default class GameController {
     if (this.currentPlayer !== "player") return;
     this.playerTurn(cordArr);
     this.DOMcontroller.renderEnemyBoard();
-    if (this.currentPlayer === "player") return;
     setTimeout(() => {
       this.computersTurn();
       this.DOMcontroller.renderBoard();
@@ -33,10 +32,8 @@ export default class GameController {
   }
 
   playerTurn(cordArr) {
-    let turn = this.playerTwo.board.reciveAttack(cordArr);
-    if (turn === "miss") {
-      this.currentPlayer = "computer";
-    }
+    this.playerTwo.board.reciveAttack(cordArr);
+    this.currentPlayer = "computer";
   }
 
   computersTurn() {
@@ -45,7 +42,7 @@ export default class GameController {
     let c1 = randomCord();
     let c2 = randomCord();
     let turn = this.playerOne.board.reciveAttack([c1, c2]);
-    while (turn === "invalid" || turn === "hit") {
+    while (turn === "invalid") {
       c1 = randomCord();
       c2 = randomCord();
       turn = this.playerOne.board.reciveAttack([c1, c2]);
@@ -90,7 +87,7 @@ export default class GameController {
       3: 3,
       2: 4,
     };
-    this.playerOne.board.resetBoard();
-    this.playerTwo.board.resetBoard();
+    this.playerOne.resetBoard();
+    this.playerTwo.resetBoard();
   }
 }
