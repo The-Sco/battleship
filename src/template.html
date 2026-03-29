@@ -6,7 +6,6 @@
   <title>Battleship</title>
 </head>
 <body>
-  <h1>title</h1>
   <div class="game">
     <div class="boards">
       <div class="endGameDialog hidden">
@@ -18,19 +17,19 @@
     </div>
     <div class="placementButtons">
       <div class="buttonDiv">
-        <button class="placementButton" data-length="5">x5</button>
+        <button class="placementButton placementButton-5 active" data-length="5">x5</button>
         <span class="label shipsLeft-5">left: 1</span>
       </div>
       <div class="buttonDiv">
-        <button class="placementButton" data-length="4">x4</button>
+        <button class="placementButton placementButton-4" data-length="4">x4</button>
         <span class="label shipsLeft-4">left: 2</span>
       </div>
       <div class="buttonDiv">
-        <button class="placementButton" data-length="3">x3</button>
+        <button class="placementButton placementButton-3" data-length="3">x3</button>
         <span class="label shipsLeft-3">left: 3</span>
       </div>
       <div class="buttonDiv">
-        <button class="placementButton" data-length="2">x2</button>
+        <button class="placementButton placementButton-2" data-length="2">x2</button>
         <span class="label shipsLeft-2">left: 4</span>
       </div>
       <div class="buttonDiv changeOrientDiv">
@@ -43,7 +42,13 @@
     </div>
   </div>
   <div class="sideButtonDiv">
+    <button class="sideButton helpButton">Help</button>  
     <button class="sideButton resetGameButton">Restart game</button>
   </div>
+  <dialog class="helpDialog">
+    <p>You must first place all your ships before you start the game.</p>
+    <p>You can change the orientation by pressing the R key.</p>
+    <button class="closeDialogButton">Close</button>
+  </dialog>
 </body>
 </html>
